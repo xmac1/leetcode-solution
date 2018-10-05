@@ -37,4 +37,12 @@ public:
 
         return midium;
     }
+
+    double quickFind(vector<int>& nums1, vector<int>& nums2) {
+        int s1, s2; // s1 splits nums1, s2 splits
+        size_t l1 = nums1.size();
+        size_t l2 = nums2.size();
+
+        
+    }
 }
