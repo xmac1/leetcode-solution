@@ -1,25 +1,20 @@
+// 双指针法
+// 从数组的两段逐渐向中心靠拢
+// 每次都选择高度低的一端向中心靠近，因为较低的一端可能变高，使得容量变大
+// 面积大小取决于较小的一端
+
 class Solution {
 public:
     int maxArea(vector<int>& height) {
-        int len = height.size();
-        vector<int> minHeight(len);
         int left, right;
-        int maxSum = 0;
+        left = 0;
+        right = height.size() - 1;
+        int maxarea = 0;
 
-        for (int i = 0; i < len; i++) {
-            
-            for (int j = i+1; j < len; j++) {
-                int width = j - i;
-                if (height.at(i) <= minHeight.at(width)) {
-                    break;
-                }
-                minHeight[width] = min(height.at(i), height.at(j));
-                
-                if (width*minHeight.at(width) > maxSum) {
-                    maxSum = width*minHeight.at(width);
-                }
-            }
+        while (left < right) {
+            maxarea = max(maxarea, min(height[left], height[right]) * (right - left));
+            height[left] < height[right] ? ++left : --right;
         }
-        return maxSum;
+        return maxarea;
     }
 };
