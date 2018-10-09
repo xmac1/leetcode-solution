@@ -1,42 +1,36 @@
+// 思路是先将给定数组排序，小的在左边，大的在右边
+// 从小到大遍历排序后的数组
+// 因为数组已经排序，所以每次遍历开始的时候，只需要检测当前元素右边的组合是否满足条件即可
+// 找出满足条件的组合的关键：双指针分别指向数组末尾以及下一个元素，如果两个元素之和大于当前元素，说明右侧太大应该减少
+// 每次完成一个元素的查找，需要跳过下一个重复的元素
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>> arrs;
-
-        map<int, int> numMap;
-        for (int i = 0; i < nums.size(); i++) {
-            numMap[nums[i]]++;
-        }
-
-        map<int, int>::iterator left = numMap.begin();
-        map<int, int>::reverse_iterator right;
-
-        for(;left != numMap.end() && left->first < 0;left++) {
-            for (right = numMap.rbegin(); right != numMap.rend() && right -> first > 0; right++) {
-                int target = 0 - (left -> first + right -> first);
-
-                map<int, int>::iterator pair = numMap.find(target);
-                if (pair != numMap.end()) {
-                    if (abs(pair->first) > min(abs(left->first), abs(right->first))) {
-                        continue;
-                    }
-
-                    if (pair->first == left->first && left->second < 2) {
-                        continue;
-                    }
-
-                    if (pair->first == right->first && right->second < 2) {
-                        continue;
-                    }
-
-                    vector<int> arr = {left->first, right->first, pair->first};
-                    arrs.push_back(arr);
+        int i = 0, j, k;
+        vector<vector<int> > result;
+        if (nums.size() < 3)
+        	return result;
+        sort(nums.begin(), nums.end()); 
+        while(i < nums.size() - 2 && nums[i] <= 0)
+        {
+            j = i + 1;
+            k = nums.size() - 1;
+            while (j < k)
+            {
+                if (nums[j] + nums[k] == -nums[i])
+                {
+                    vector<int> vecTemp = {nums[i], nums[j], nums[k]};
+                    result.push_back(vecTemp);
+                    while(nums[j] == nums[--j]){}
+                    while(nums[k] == nums[--k]){}
                 }
+                else if (nums[j] + nums[k] > -nums[i])
+                    k--;
+                else
+                    j++;
             }
+            while(nums[i] == nums[++i]) {}
         }
-        if (numMap[0] >= 3) {
-                arrs.push_back({0,0,0});
-        }
-        return arrs;
+        return result;
     }
 };
