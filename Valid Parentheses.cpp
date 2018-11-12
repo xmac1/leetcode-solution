@@ -1,6 +1,3 @@
-// 使用栈保存左边的符号
-// 每次遇到左边的符号就push进入栈
-// 每次遇到右边的符号就pop栈，如果pop出来的符号和当前符号不成对，则无效字符串
 class Solution {
 public:
     bool isValid(string s) {
@@ -21,7 +18,7 @@ public:
                 case ')':
                     if (cs.top()!='('){
                         b = false;
-                    }
+                    } 
                     break;
                 case '}':
                     if (cs.top()!='{'){
@@ -37,7 +34,7 @@ public:
                 continue;
             }
             cs.push(s[i]);
-
+            
         }
         if (!cs.empty()) {
             return false;
